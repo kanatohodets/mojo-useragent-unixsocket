@@ -3,6 +3,8 @@ use Carp 'carp';
 use Mojo::Base 'Mojo::UserAgent';
 use DummySocket;
 
+our $VERSION = '0.01';
+
 sub start {
     my ($self, $tx, $cb) = @_;
     if ($tx->req->url->scheme eq 'unix') {
@@ -33,6 +35,10 @@ sub start {
 
 Mojo::UserAgent::UnixSocket - User Agent connections over UNIX sockets.
 
+=head1 VERSION
+
+0.01
+
 =head1 SYNOPSIS
 
   use Mojo::UserAgent::UnixSocket;
@@ -42,19 +48,18 @@ Mojo::UserAgent::UnixSocket - User Agent connections over UNIX sockets.
 
 =head1 DESCRIPTION
 
-L<Mojo::UserAgent::UnixSocket> transparently enables L<Mojo::UserAgent> to interact 
-with services listening on unix sockets.
+L<Mojo::UserAgent::UnixSocket> transparently enables L<Mojo::UserAgent> to interact with services listening on Unix domain sockets.
 
 Any invocation that works with L<Mojo::UserAgent> should also work here.
 
-It expects URIs in the following format (the .sock is required, pending a clever patch):
+It expects URLs in the following format (the .sock is required, pending a clever patch):
 
   unix://<path-to-socket>.sock/<url-path>
 
-For example, talking to the docker daemon:
+For example, talking to the L<Docker|http://docker.io/> daemon, whose socket is (typically) located at C</var/run/docker.sock>:
 
   unix:///var/run/docker.sock/images/nginx/json
-  
+
 =head1 SEE ALSO
 
 L<HTTP::Tiny::UNIX>, L<Mojo::UserAgent>
