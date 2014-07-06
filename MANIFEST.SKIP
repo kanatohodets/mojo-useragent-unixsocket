@@ -1,0 +1,10 @@
+^mypp.yml
+.git
+\.old
+\.swp
+~$
+MYMETA.*
+.tar.gz$
+^blib/
+^Makefile$
+^MANIFEST.*

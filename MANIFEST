@@ -1,0 +1,6 @@
+Changes
+lib/DummySocket.pm
+lib/Mojo/UserAgent/UnixSocket.pm
+Makefile.PL
+README.pod
+t/basic.t
