@@ -1,19 +1,21 @@
+use 5.18.2;
 use strict;
 use warnings;
 
 use Test::More tests => 7;
-use Mojo::UserAgent::UnixSocket;
-use Cwd;
+use File::Temp 'tempdir';
 use IO::Socket::UNIX;
-use feature 'say';
+
+use Mojo::UserAgent::UnixSocket;
 
 Test::More->builder->no_ending(1);
 Test::More->builder->use_numbers(0);
 
 my $ua = Mojo::UserAgent::UnixSocket->new;
-my $cwd = getcwd;
+$ua->inactivity_timeout(3);
+my $dir = tempdir CLEANUP => 1;
 
-my $socket_path = "$cwd/foobar.sock";
+my $socket_path = "$dir/foobar.sock";
 unlink $socket_path if -e $socket_path;
 
 my $socket = IO::Socket::UNIX->new(
@@ -31,7 +33,7 @@ if ($pid == 0) {
         $connection->autoflush(1);
         while (my $line = <$connection>) {
             chomp($line);
-            like $line, qr$GET /gadgets\?widgetable=1 HTTP/1.1$, "server sees right request" if $line =~ /^GET/;
+            like $line, qr$GET /greetings\?enthusiastic=1 HTTP/1.1$, "server sees right request" if $line =~ /^GET/;
             like $line, qr/$socket_path/i, "server sees right host" if $line =~ /Host:/;
             if ($line =~ /^\R$/) {
                 say $connection "HTTP/1.1 200 OK";
@@ -46,15 +48,14 @@ if ($pid == 0) {
     exit 0;
 }
 
-my $tx = $ua->get("unix://$cwd/foobar.sock/gadgets?widgetable=1");
+my $tx = $ua->get("unix://$socket_path/greetings?enthusiastic=1");
 waitpid($pid, 0);
 
 my $url = $tx->req->url;
 ok $url->scheme eq 'unix', "UA has right url scheme";
-ok $url->path eq '/gadgets', "UA has right url path";
-ok $url->query eq 'widgetable=1', "UA has right url query";
+ok $url->path eq '/greetings', "UA has right url path";
+ok $url->query eq 'enthusiastic=1', "UA has right url query";
 ok $url->host eq $socket_path, "UA has right host header";
 
 my $res = $tx->res;
 like $res->dom->at('h1')->text, qr/Good morning to you!/, "UA got right server response";
-
