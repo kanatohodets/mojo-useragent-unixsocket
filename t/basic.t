@@ -34,7 +34,7 @@ if ($pid == 0) {
         while (my $line = <$connection>) {
             chomp($line);
             like $line, qr$GET /greetings\?enthusiastic=1 HTTP/1.1$, "server sees right request" if $line =~ /^GET/;
-            like $line, qr/$socket_path/i, "server sees right host" if $line =~ /Host:/;
+            like $line, qr/localhost/i, "server sees right host" if $line =~ /Host:/;
             if ($line =~ /^\R$/) {
                 my $res = "<!DOCTYPE HTML><html><body><h1>Good morning to you!</h1></body></html>";
 
@@ -58,7 +58,7 @@ my $url = $tx->req->url;
 ok $url->scheme eq 'unix', "UA has right url scheme";
 ok $url->path eq '/greetings', "UA has right url path";
 ok $url->query eq 'enthusiastic=1', "UA has right url query";
-ok $url->host eq $socket_path, "UA has right host header";
+ok $url->host eq 'localhost', "UA has right host header";
 
 my $res = $tx->res;
 like $res->dom->at('h1')->text, qr/Good morning to you!/, "UA got right server response";

@@ -14,7 +14,7 @@ sub start {
         my $sock_path = ($path =~ m#(^.+\.sock)\/#)[0];
         my $url_path = $path =~ s/$sock_path//r;
         $tx->req->url->path($url_path);
-        $tx->req->url->host($sock_path);
+        $tx->req->url->host('localhost');
 
         if (-S $sock_path) {
             my $sock = DummySocket->new(Peer => $sock_path);
