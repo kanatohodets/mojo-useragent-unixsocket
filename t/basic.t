@@ -36,10 +36,13 @@ if ($pid == 0) {
             like $line, qr$GET /greetings\?enthusiastic=1 HTTP/1.1$, "server sees right request" if $line =~ /^GET/;
             like $line, qr/$socket_path/i, "server sees right host" if $line =~ /Host:/;
             if ($line =~ /^\R$/) {
+                my $res = "<!DOCTYPE HTML><html><body><h1>Good morning to you!</h1></body></html>";
+
                 say $connection "HTTP/1.1 200 OK";
                 say $connection "Content-Type: text/html; charset=UTF-8";
+                say $connection "Content-Length: " . length $res;
                 say $connection '';
-                say $connection "<doctype HTML><html><body><h1>Good morning to you!</h1></body></html>";
+                say $connection $res;
                 close $connection and last;
             }
         }
