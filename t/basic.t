@@ -1,6 +1,6 @@
-use 5.18.2;
 use strict;
 use warnings;
+use feature 'say';
 
 use Test::More tests => 7;
 use File::Temp 'tempdir';

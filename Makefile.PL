@@ -7,6 +7,7 @@ WriteMakefile(
   LICENSE => 'perl',
   PREREQ_PM => {
     'Mojolicious' => '5.00',
+    'IO::Socket::UNIX' => '1.25'
   },
   META_MERGE => {
     resources => {
