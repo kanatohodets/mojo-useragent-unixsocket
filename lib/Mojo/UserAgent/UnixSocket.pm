@@ -3,7 +3,7 @@ use Carp 'carp';
 use Mojo::Base 'Mojo::UserAgent';
 use DummySocket;
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 sub start {
     my ($self, $tx, $cb) = @_;
