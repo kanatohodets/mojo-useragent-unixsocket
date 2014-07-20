@@ -6,7 +6,7 @@ Mojo::UserAgent::UnixSocket - User Agent connections over UNIX sockets.
 
 =head1 VERSION
 
-0.01
+0.021
 
 =head1 SYNOPSIS
 
