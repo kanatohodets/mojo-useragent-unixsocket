@@ -3,6 +3,9 @@ use warnings;
 use feature 'say';
 
 use Test::More tests => 7;
+
+BAIL_OUT "No support for OS" if $^O eq "MSWin32";
+
 use File::Temp 'tempdir';
 use IO::Socket::UNIX;
 
