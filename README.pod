@@ -2,7 +2,9 @@
 
 =head1 NAME
 
-Mojo::UserAgent::UnixSocket - User Agent connections over UNIX sockets.
+DEPRECATED - Mojolicious has native UNIX socket support since 7.27. You don't need this :)
+
+Previously: Mojo::UserAgent::UnixSocket - User Agent connections over UNIX sockets.
 
 =head1 VERSION
 
